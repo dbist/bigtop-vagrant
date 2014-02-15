@@ -21,8 +21,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Run bootstrap.sh script
   config.vm.provision :shell, :path => "bootstrap.sh"
 
+  # Install Hadoop
+  config.vm.provision :shell, :path => "install-hadoop.sh" 
+
   # Run Hadoop
-  config.vm.provision :shell, :path => "run-hadoop.sh"	
+  config.vm.provision :shell, :path => "run-hadoop.sh"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
