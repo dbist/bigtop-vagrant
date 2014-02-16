@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
 # Start pseudo-distributed cluster
-for i in hadoop-hdfs-namenode hadoop-hdfs-datanode ; do sudo service  start ; done
+
+# Start namenode
+service hadoop-hdfs-namenode start
+
+# Start datanode
+service hadoop-hdfs-datanode start
 
 # Create directories in HDFS
 /usr/lib/hadoop/libexec/init-hdfs.sh
@@ -9,3 +14,10 @@ for i in hadoop-hdfs-namenode hadoop-hdfs-datanode ; do sudo service  start ; do
 # Start YARN daemons
 service hadoop-yarn-resourcemanager start
 service hadoop-yarn-nodemanager start
+
+# Create vagrant HDFS homedir and change ownership
+sudo -u hdfs hadoop fs -mkdir /user/vagrant
+sudo -u hdfs hadoop fs -chown vagrant:vagrant /user/vagrant
+
+# Run PI Mapreduce job
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
